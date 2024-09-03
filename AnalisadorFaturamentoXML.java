@@ -14,30 +14,30 @@ import java.util.List;
 public class AnalisadorFaturamentoXML {
 
     public static void main(String[] args) {
-        try {
+        try { 
             File xmlFile = new File("dados_faturamento.xml"); 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
 
-            NodeList nodeList = doc.getElementsByTagName("dia"); 
+            NodeList nodeList = doc.getElementsByTagName("row"); 
             List<Double> faturamento = new ArrayList<>();
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Element element = (Element) nodeList.item(i);
-                double valor = Double.parseDouble(element.getTextContent());
+                double valor = Double.parseDouble(element.getElementsByTagName("valor").item(0).getTextContent());
                 faturamento.add(valor);
             }
 
             double menorFaturamento = calcularMenorFaturamento(faturamento);
             double maiorFaturamento = calcularMaiorFaturamento(faturamento);
-            double mediaFaturamento = calcularMediaFaturamento(faturamento);
             int diasAcimaDaMedia = calcularDiasAcimaDaMedia(faturamento);
+            double mediaFaturamento = calcularMediaFaturamento(faturamento);
 
             System.out.println("Menor faturamento: " + menorFaturamento);
             System.out.println("Maior faturamento: " + maiorFaturamento);
-            System.out.println("Média de faturamento: " + mediaFaturamento);
             System.out.println("Dias com faturamento acima da média: " + diasAcimaDaMedia);
+            System.out.println("Média de faturamento: " + mediaFaturamento);
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
@@ -73,15 +73,11 @@ public class AnalisadorFaturamentoXML {
                 diasComFaturamento++;
             }
         }
-        if (diasComFaturamento == 0) {
-            return 0; // Evita divisão por zero
-        }
-        return soma / diasComFaturamento;
+        return diasComFaturamento > 0 ? soma / diasComFaturamento : 0;
     }
 
     public static int calcularDiasAcimaDaMedia(List<Double> faturamento) {
         double media = calcularMediaFaturamento(faturamento);
-
         int diasAcimaDaMedia = 0;
         for (double valor : faturamento) {
             if (valor > media) {
