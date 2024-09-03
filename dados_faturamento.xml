@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faturamento>
+    <faturamento_diario>
+        <dia>300.50</dia>
+        <dia>0.00</dia>
+        <dia>500.25</dia>
+        <dia>450.00</dia>
+        <dia>100.75</dia>
+        <dia>0.00</dia>
+        <dia>250.00</dia>
+        <dia>0.00</dia>
+        <dia>300.00</dia>
+        <dia>400.00</dia>
+        <dia>0.00</dia>
+        <dia>150.00</dia>
+        
+    </faturamento_diario>
+</faturamento>
